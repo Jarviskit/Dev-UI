@@ -27,7 +27,7 @@ export class ThreadService {
   }
 
   private getUrl(path: string, params: Record<string, string> = {}) {
-    const url = new URL(path, import.meta.env.VITE_AGENT_RUNTIME);
+    const url = new URL(path, import.meta.env.VITE_JARVIS_KIT_RUNTIME);
     Object.entries(params).forEach(([key, value]) => {
       url.searchParams.set(key, value);
     });
