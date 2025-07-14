@@ -1,54 +1,87 @@
-# React + TypeScript + Vite
+# JarvisKit Dev-UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat&logo=nestjs&logoColor=white)](https://nestjs.com/)
+[![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)](https://python.org/)
+[![LangGraph](https://img.shields.io/badge/LangGraph-1C3AA9?style=flat&logo=langchain&logoColor=white)](https://langchain-ai.github.io/langgraph/)
 
-Currently, two official plugins are available:
+Provides a minimal conversation dialog for testing, debugging, and developing agents with JarvisKit.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
+### Frontend (Dev-UI)
+- **React 19** with TypeScript
+- **Vite** for fast development and building
+- **TailwindCSS** for styling
+- **Socket.io Client** for real-time communication
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Quick Start
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+1. **Clone the repository**
+    ```bash
+    git clone https://github.com/JarvisKit/Dev-UI.git
+    cd Dev-UI
+    ```
+
+2. **Set up environment variables**
+    ```bash
+    cp .env.example .env
+    # Edit .env with your configuration
+    ```
+
+3. **Install and run**
+    ```bash
+    # Install dependencies
+    yarn
+
+    # Start dev ui
+    yarn dev
+    ```
+
+
+## 🔧 Usage
+```tsx
+import { AgentProvider } from './jarviskit/agent.context';
+import ChatBox from './jarviskit/chat/ChatBox';
+
+function App() {
+  return (
+    <AgentProvider
+      runtimeEndpoint="http://localhost:6789"
+      namespace="your-namespace"
+      agentName="simple_agent"
+      agentConfig={{ model: 'gpt-4o-mini' }}
+      authToken="your-auth-token"
+    >
+      <ChatBox threadId="thread-001" />
+    </AgentProvider>
+  );
+}
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📝 License
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 👥 Team
+
+- **Nghia Pham** - [@nghiapd92](mailto:nghiapd92@gmail.com) - JarvisKit Founder
+
+## 🙏 Acknowledgments
+
+- [LangChain](https://langchain.com/) for the AI framework
+- [LangGraph](https://langchain-ai.github.io/langgraph/) for agent workflows
+- [NestJS](https://nestjs.com/) for the backend framework
+- [React](https://reactjs.org/) for the frontend framework
+
+## 📞 Support
+
+- 📧 Email: nghiapd92@gmail.com
+- 🐛 Issues: [GitHub Issues](https://github.com/JarvisKit/JarvisKit/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/JarvisKit/JarvisKit/discussions)
+
+---
+
+Made with ❤️ by the JarvisKit Team
