@@ -1,20 +1,5 @@
-interface UserMessagePayload {
-  namespace: string;
-  agentName: string;
-  threadId: string;
-  message: string;
-  config: any;
+import { SendToolResponsePayload, UserMessagePayload } from "../interfaces/messages";
 
-  // For Demo
-  userId: string;
-}
-
-interface SendToolResponsePayload {
-  namespace: string;
-  agentName: string;
-  toolCallId: string;
-  response: object;
-}
 
 export class ThreadService {
   private headers: Record<string, string>;
@@ -68,7 +53,6 @@ export class ThreadService {
         namespace: payload.namespace,
         agentName: payload.agentName,
         content: payload.message,
-        userId: payload.userId, // Runtime need to parse userId from token
         config: payload.config,
       }),
     });

@@ -1,11 +1,13 @@
 import { ChatContent } from "./ChatContent";
 import { InputBox } from "./InputBox";
-import { useChat } from "../hooks/use-chat";
-import { useAgentAction } from "../hooks/use-agent-action";
 import * as toolMessage from "../helpers/ToolMessage";
 import { useEffect } from "react";
-import { ToolResponseMode } from "../interfaces/hook-interfaces";
-import { useAgentCustomEvent } from "../hooks/use-agent-custom-event";
+import { ToolResponseMode } from "../../jarviskit/interfaces/hook-interfaces";
+import {
+  useJarvisKitChat,
+  useJarvisKitAction,
+  useJarvisKitCustomEvent
+} from "../../jarviskit/hooks";
 
 interface ChatBoxProps {
   threadId: string;
@@ -16,7 +18,7 @@ export default function ChatBox(props: ChatBoxProps) {
     threadId,
     setThreadId,
     isTyping,
-  } = useChat();
+  } = useJarvisKitChat();
 
   useEffect(() => {
     if(setThreadId) { 
@@ -24,7 +26,7 @@ export default function ChatBox(props: ChatBoxProps) {
     }
   }, [props.threadId, setThreadId]);
 
-  useAgentAction<any, {}>({
+  useJarvisKitAction<any, {}>({
     name: "scan_cv_tool",
     responseMode: ToolResponseMode.Client,
     render: (props) => toolMessage.render(props, {
@@ -35,7 +37,7 @@ export default function ChatBox(props: ChatBoxProps) {
     })
   })
 
-  useAgentCustomEvent({
+  useJarvisKitCustomEvent({
     event: 'progress_event',
     render: (event: any) => {
       return <div className="bg-gray-100 text-gray-800 p-2 rounded-lg w-full border flex flex-row gap-3 items-center">
@@ -49,7 +51,7 @@ export default function ChatBox(props: ChatBoxProps) {
     }
   })
 
-  useAgentCustomEvent({ 
+  useJarvisKitCustomEvent({ 
     event: 'alert_event',
     render: (event: any) => {
       return <div className="bg-gray-100 text-gray-800 p-2 rounded-lg w-full border flex flex-row gap-3 items-center">

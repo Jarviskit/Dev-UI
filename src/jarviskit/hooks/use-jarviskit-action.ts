@@ -2,11 +2,11 @@ import { useCallback, useEffect } from "react";
 import { Message } from "../interfaces/messages";
 import { ToolResponseMode, ToolStatus, UseAgentActionProps } from "../interfaces/hook-interfaces";
 import { getThreadService } from "../services/thread.service";
-import { useAgentContext } from "../agent.context";
+import { useJarvisKitContext } from "../jarviskit.context";
 
 const registeredActions = new Map<string, UseAgentActionProps<any, any>>();
 
-export function useAgentAction<T, K>(props: UseAgentActionProps<T, K>): void {
+export function useJarvisKitAction<T, K>(props: UseAgentActionProps<T, K>): void {
   const { name, render } = props;
 
   useEffect(() => {
@@ -18,8 +18,8 @@ export function useAgentAction<T, K>(props: UseAgentActionProps<T, K>): void {
   }, [name, render]);
 }
 
-export function useToolMessageRenderer( ) {
-  const { namespace, agentName, authToken } = useAgentContext();
+export function useJarvisKitToolMessageRenderer( ) {
+  const { namespace, agentName, authToken } = useJarvisKitContext();
   if (!namespace || !agentName) {
     throw new Error('Agent space and agent name are required');
   }

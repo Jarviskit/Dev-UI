@@ -1,4 +1,4 @@
-import { Message } from "../../interfaces/messages";
+import { Message } from "../../../jarviskit/interfaces/messages";
 
 export function UserMessage(message: Message) {
   return <div className="flex justify-end">

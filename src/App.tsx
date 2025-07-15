@@ -1,6 +1,6 @@
-import ChatBox from "./chat/ChatBox";
-import EventBox from './components/EventBox';
-import { AgentProvider } from './agent.context';
+import ChatBox from "./dev-ui/chat/ChatBox";
+import EventBox from './dev-ui/components/EventBox';
+import { JarvisKitProvider } from './jarviskit/jarviskit.context';
 
 
 
@@ -8,7 +8,7 @@ export default function AgUiApp() {
   const runtimeAuthToken = import.meta.env.VITE_JARVIS_KIT_AUTH_TOKEN;
 
   return (
-    <AgentProvider
+    <JarvisKitProvider
       runtimeEndpoint="http://localhost:6789"
       namespace="demo_agent_space"
       agentName="agent_with_client_tool_call"
@@ -22,6 +22,6 @@ export default function AgUiApp() {
           <EventBox />
         </div>
       </div>
-    </AgentProvider>
+    </JarvisKitProvider>
   );
 }

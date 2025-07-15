@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useChat } from "../hooks/use-chat";
+import { useJarvisKitChat } from "../../jarviskit/hooks";
 
 
 export function InputBox() {
   const [message, setMessage] = useState('');
-  const { isTyping, sendMessage } = useChat();
+  const { isTyping, sendMessage } = useJarvisKitChat();
   
   return (
     <div className="flex flex-row gap-2 p-3 bg-gray-100">
