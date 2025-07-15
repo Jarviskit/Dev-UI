@@ -2,52 +2,13 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { EventType, BaseEvent } from "@ag-ui/core";
 import { SingletonHooksContainer } from "react-singleton-hook";
-import { Thread } from "./interfaces/messages";
+import { AguiEvent, Thread } from "./interfaces/messages";
+import { getThreadService } from "./services/thread.service";
+import { JarvisKitContextProps, JarvisKitProviderProps } from "./interfaces/context";
 
-export interface AgentProviderProps {
-  runtimeEndpoint: string;
-  namespace: string;
-  agentName: string;
+export const JarvisKitContext = createContext<JarvisKitContextProps | null>(null);
 
-  authToken?: string;
-  transports?: Array<'websocket' | 'polling'>;
-  agentConfig: any;
-
-  children: React.ReactNode;
-}
-
-export interface AguiEvent {
-  id: string;
-  type: EventType;
-  timestamp: string;
-  order: number;
-  data?: any;
-}
-
-export interface AgentContextProps {
-  socket: Socket | null;
-  authToken: string | undefined;
-  sessionId: string | undefined;
-  namespace: string;
-  agentName: string;
-
-  agentState: any;
-  setAgentState: (agentState: any) => void;
-
-  agentConfig: any;
-  setAgentConfig: (config: any) => void;
-  
-  isConnected: boolean;
-  isStreaming: boolean;
-  aguiEvents: AguiEvent[];
-  prependCachedEvents: (events: AguiEvent[]) => void;
-  onStreamEnded: (callback: () => Promise<void>) => void;
-  onThreadChanged: (thread?: Thread) => void;
-}
-
-export const AgentContext = createContext<AgentContextProps | null>(null);
-
-export function AgentProvider(props: AgentProviderProps) {
+export function JarvisKitProvider(props: JarvisKitProviderProps) {
   const { children, runtimeEndpoint, authToken, transports} = props;
 
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -67,12 +28,7 @@ export function AgentProvider(props: AgentProviderProps) {
     const newEvent: AguiEvent = {
       id: Date.now().toString(),
       type: eventType,
-      timestamp: new Date().toLocaleTimeString('en-US', { 
-        hour12: false,
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      }),
+      timestamp: new Date(),
       order: data.order,
       data,
     };
@@ -173,7 +129,7 @@ export function AgentProvider(props: AgentProviderProps) {
     };
   }, []);
 
-  return socket && <AgentContext.Provider
+  return socket && <JarvisKitContext.Provider
     value={{
       socket,
       namespace: props.namespace,
@@ -183,6 +139,8 @@ export function AgentProvider(props: AgentProviderProps) {
 
       agentState, setAgentState,
       agentConfig, setAgentConfig,
+
+      threadService: getThreadService(authToken),
       
       isConnected,
       isStreaming,
@@ -194,21 +152,21 @@ export function AgentProvider(props: AgentProviderProps) {
   >
     <SingletonHooksContainer />
     {children}
-  </AgentContext.Provider>;
+  </JarvisKitContext.Provider>;
 }
 
-export const useAgentContext = () => {
-  const context = useContext(AgentContext);
+export const useJarvisKitContext = () => {
+  const context = useContext(JarvisKitContext);
   if (!context) {
-    throw new Error("useAgentContext must be used within an AgentProvider");
+    throw new Error("useJarvisKitContext must be used within an JarvisKitProvider");
   }
   return context;
 };
 
 export const useSocket = () => {
-  const { socket } = useAgentContext();
+  const { socket } = useJarvisKitContext();
   if (!socket) {
-    throw new Error("useSocket must be used within an AgentProvider");
+    throw new Error("useSocket must be used within an JarvisKitProvider");
   }
   return socket;
 };

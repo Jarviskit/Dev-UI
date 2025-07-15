@@ -1,5 +1,5 @@
+import { RenderProps, ToolStatus } from "../../jarviskit/interfaces/hook-interfaces";
 import { AgentMessage } from "../chat/messages/AgentMessage";
-import { RenderProps, ToolStatus } from "../interfaces/hook-interfaces";
 
 
 export const render = (props: RenderProps<any, any>, mockResponse?: any) => {

@@ -1,3 +1,4 @@
+import { EventType } from "@ag-ui/core";
 import { ToolStatus } from "./hook-interfaces";
 
 export interface Message {
@@ -23,4 +24,27 @@ export interface Thread {
   createdAt: string;
   updatedAt: string;
   currentSessionId: string;
+}
+
+export interface UserMessagePayload {
+  namespace: string;
+  agentName: string;
+  threadId: string;
+  message: string;
+  config: any;
+}
+
+export interface SendToolResponsePayload {
+  namespace: string;
+  agentName: string;
+  toolCallId: string;
+  response: object;
+}
+
+export interface AguiEvent {
+  id: string;
+  type: EventType;
+  timestamp: Date;
+  order: number;
+  data?: any;
 }

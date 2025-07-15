@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAgentContext } from "../agent.context";
+import { useJarvisKitContext } from "../jarviskit.context";
 import { getThreadService } from "../services/thread.service";
 import { Message, Thread } from "../interfaces/messages";
 import { singletonHook } from "react-singleton-hook";
@@ -14,7 +14,7 @@ interface UseChatReturn {
 }
 
 
-export function _useChat(): UseChatReturn {
+export function _useJarvisKitChat(): UseChatReturn {
   const {
     socket,
     namespace,
@@ -25,7 +25,7 @@ export function _useChat(): UseChatReturn {
     onThreadChanged,
     sessionId,
     authToken,
-  } = useAgentContext();
+  } = useJarvisKitContext();
 
   const [threadId, setThreadId] = useState<string | undefined>();
   const [thread, setThread] = useState<Thread | undefined>();
@@ -45,8 +45,7 @@ export function _useChat(): UseChatReturn {
       agentName,
       threadId,
       message,
-      config: agentConfig,
-      userId: "123123", // TODO: remove this in production
+      config: agentConfig
     })
   };
 
@@ -137,4 +136,4 @@ export function _useChat(): UseChatReturn {
   };
 } 
 
-export const useChat = singletonHook({} as UseChatReturn, _useChat);
+export const useJarvisKitChat = singletonHook({} as UseChatReturn, _useJarvisKitChat);

@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
-import { useAgentContext } from "../../agent.context";
-import { Message } from "../../interfaces/messages";
+import { useJarvisKitContext } from "../jarviskit.context";
+import { Message } from "../interfaces/messages";
+import { useJarvisKitToolMessageRenderer } from "./use-jarviskit-action";
+import { useJarvisKitCustomEventRenderer } from "./use-jarviskit-custom-event";
+import { ToolStatus } from "../interfaces/hook-interfaces";
 import { EventType } from "@ag-ui/core";
-import { AgentMessage } from "./AgentMessage";
-import { useToolMessageRenderer } from "../../hooks/use-agent-action";
-import { ToolStatus } from "../../interfaces/hook-interfaces";
-import { useAgentCustomEventRenderer } from "../../hooks/use-agent-custom-event";
+import { AgentMessage } from "../../dev-ui/chat/messages/AgentMessage";
 
-
-export function StreamingContent() {
-  const { aguiEvents, isStreaming } = useAgentContext(); 
+export function useJarvisKitStream() {
+  const { aguiEvents, isStreaming } = useJarvisKitContext(); 
   const [messages, setMessages] = useState<Array<Message & any>>([]);
-  const { renderToolMessage } = useToolMessageRenderer();
-  const customEventRenderer = useAgentCustomEventRenderer();
+  const { renderToolMessage } = useJarvisKitToolMessageRenderer();
+  const customEventRenderer = useJarvisKitCustomEventRenderer();
   const [processedEventCount, setProcessedEventCount] = useState(0);
 
   const convertAguiEventsToMessages = () => {
@@ -89,7 +88,7 @@ export function StreamingContent() {
 
   if (!isStreaming) return;
 
-  return <div className="flex flex-col gap-2 p-1 rounded-lg animate-gradient">
+  return (<div className="flex flex-col gap-2 p-1 rounded-lg animate-gradient">
     <div className="flex flex-col gap-2 bg-white rounded-lg">
       {messages.map((message, index) => {
         // Tool message
@@ -113,5 +112,6 @@ export function StreamingContent() {
         </div>
       })}
     </div>
-  </div>;
+  </div>);
 }
+

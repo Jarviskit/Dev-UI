@@ -1,4 +1,4 @@
-import { Message } from "../../interfaces/messages";
+import { Message } from "../../../jarviskit/interfaces/messages";
 
 
 export function AgentMessage(message: Message) {

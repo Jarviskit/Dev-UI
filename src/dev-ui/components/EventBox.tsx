@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react';
-import { useAgentContext } from '../agent.context';
-import { useChat } from '../hooks/use-chat';
+import { useJarvisKitContext } from '../../jarviskit/jarviskit.context';
+import { useJarvisKitChat } from '../../jarviskit/hooks';
 
 
 export default function EventBox() {
   // const socket = useSocket();
-  const { aguiEvents, isStreaming, sessionId, namespace, agentName } = useAgentContext();
-  const { threadId, thread } = useChat();
+  const { aguiEvents, isStreaming, sessionId, namespace, agentName } = useJarvisKitContext();
+  const { threadId, thread } = useJarvisKitChat();
   const eventsEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function EventBox() {
                     {event.type}
                   </div>
                   <div className="text-xs text-gray-500 ml-2">
-                    {event.timestamp}
+                    {event.timestamp.toISOString()}
                   </div>
                 </div>
                 {event.data && (
