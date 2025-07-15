@@ -4,7 +4,7 @@ import { JarvisKitProvider } from './jarviskit/jarviskit.context';
 
 
 
-export default function AgUiApp() {
+export default function JarvisKitDevUI() {
   const runtimeAuthToken = import.meta.env.VITE_JARVIS_KIT_AUTH_TOKEN;
 
   return (

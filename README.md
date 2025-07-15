@@ -48,20 +48,29 @@ Provides a minimal conversation dialog for testing, debugging, and developing ag
 
 ## 🔧 Usage
 ```tsx
-import { AgentProvider } from './jarviskit/agent.context';
-import ChatBox from './jarviskit/chat/ChatBox';
+import ChatBox from "./dev-ui/chat/ChatBox";
+import EventBox from './dev-ui/components/EventBox';
+import { JarvisKitProvider } from './jarviskit/jarviskit.context';
 
-function App() {
+export default function JarvisKitDevUI() {
+  const runtimeAuthToken = import.meta.env.VITE_JARVIS_KIT_AUTH_TOKEN;
+
   return (
-    <AgentProvider
+    <JarvisKitProvider
       runtimeEndpoint="http://localhost:6789"
-      namespace="your-namespace"
-      agentName="simple_agent"
-      agentConfig={{ model: 'gpt-4o-mini' }}
-      authToken="your-auth-token"
+      namespace="demo_agent_space"
+      agentName="agent_with_client_tool_call"
+      agentConfig={{ token: 'abc.def.ghi', model: 'gpt-4o-mini' }}
+      authToken={runtimeAuthToken}
     >
-      <ChatBox threadId="thread-001" />
-    </AgentProvider>
+      <div className="flex flex-row gap-2 w-screen h-screen">
+        <ChatBox threadId="agent_with_client_tool_call_002" />
+
+        <div className="flex flex-col flex-grow">
+          <EventBox />
+        </div>
+      </div>
+    </JarvisKitProvider>
   );
 }
 ```
