@@ -9,14 +9,14 @@ export default function JarvisKitDevUI() {
 
   return (
     <JarvisKitProvider
-      runtimeEndpoint="http://localhost:6789"
+      runtimeEndpoint="http://localhost"
       namespace="demo_agent_space"
-      agentName="agent_with_client_tool_call"
-      agentConfig={{ token: 'abc.def.ghi', model: 'gpt-4o-mini' }}
+      agentName="candidate_agent"
+      agentConfig={{ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ODc0YjY2NDA0NDU5YzE1MDE1MTdiZiIsImZ1bGxOYW1lIjoiTmdoaWEgUGhhbSIsImlhdCI6MTc1MzY5NzEyNywiZXhwIjoxNzU2Mjg5MTI3fQ.xHVNIcXMY3mvWkmWx2jCM6We1gdRZ3Jgt4GRcWvimvU' }}
       authToken={runtimeAuthToken}
     >
       <div className="flex flex-row gap-2 w-screen h-screen">
-        <ChatBox threadId="agent_with_client_tool_call_002" />
+        <ChatBox threadId="nghia_test_001" />
 
         <div className="flex flex-col flex-grow">
           <EventBox />

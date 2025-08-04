@@ -1,7 +1,7 @@
 import { ChatContent } from "./ChatContent";
 import { InputBox } from "./InputBox";
 import * as toolMessage from "../helpers/ToolMessage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ToolResponseMode } from "../../jarviskit/interfaces/hook-interfaces";
 import {
   useJarvisKitChat,
@@ -19,6 +19,7 @@ export default function ChatBox(props: ChatBoxProps) {
     setThreadId,
     isTyping,
   } = useJarvisKitChat();
+  const [instructions, setInstructions] = useState<string[]>([]);
 
   useEffect(() => {
     if(setThreadId) { 
@@ -65,6 +66,19 @@ export default function ChatBox(props: ChatBoxProps) {
     }
   })
 
+  useJarvisKitCustomEvent({
+    event: 'suggest_next_action',
+    handler: (rawValue: any) => {
+      if (rawValue.message) {
+        setInstructions(rawValue.message);
+      }
+    }
+  })
+
+  useEffect(() => {
+    console.log('suggest_next_action', instructions);
+  }, [instructions]);
+
   
   return <div className="flex flex-col gap-2 w-[600px] h-full border-r-1 border-gray-300 shrink-0">
     <div className="flex flex-row gap-2 bg-gray-900 px-3 py-5 text-white text-lg font-bold w-full">
@@ -80,6 +94,13 @@ export default function ChatBox(props: ChatBoxProps) {
     </div>
 
     <ChatContent isTyping={isTyping} />
+    {instructions && <div className="flex flex-row gap-2 text-gray-800 text-sm font-bold w-full px-2 overflow-x-auto">
+      {instructions.map((instruction, index) => (
+        <div key={index} className="flex flex-row gap-2 bg-gray-100 px-2 py-1 rounded-md cursor-pointer">
+          <div className="text-sm text-gray-500 flex-grow">{instruction}</div>
+        </div>
+      ))}
+    </div>}
     
     <InputBox />
   </div>;

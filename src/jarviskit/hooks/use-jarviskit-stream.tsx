@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useJarvisKitContext } from "../jarviskit.context";
 import { Message } from "../interfaces/messages";
 import { useJarvisKitToolMessageRenderer } from "./use-jarviskit-action";
-import { useJarvisKitCustomEventRenderer } from "./use-jarviskit-custom-event";
+import { useJarvisKitCustomEventHandler, useJarvisKitCustomEventRenderer } from "./use-jarviskit-custom-event";
 import { ToolStatus } from "../interfaces/hook-interfaces";
 import { EventType } from "@ag-ui/core";
 import { AgentMessage } from "../../dev-ui/chat/messages/AgentMessage";
@@ -12,6 +12,7 @@ export function useJarvisKitStream() {
   const [messages, setMessages] = useState<Array<Message & any>>([]);
   const { renderToolMessage } = useJarvisKitToolMessageRenderer();
   const customEventRenderer = useJarvisKitCustomEventRenderer();
+  const customEventHandler = useJarvisKitCustomEventHandler();
   const [processedEventCount, setProcessedEventCount] = useState(0);
 
   const convertAguiEventsToMessages = () => {
@@ -50,7 +51,11 @@ export function useJarvisKitStream() {
 
       } else if (event.type === EventType.CUSTOM) {
         // Checking for render strategy
-        if (event.data.value && event.data.value.strategy === 'replace') {
+        if (!event.data.value) continue;
+
+        customEventHandler(event);
+        
+        if (event.data.value.strategy === 'replace') {
           // Find the last custom event with the same name and replace it's content with the new one
           const lastCustomEvent = convertedMessages.filter((m) => m.type === 'custom' && m.event === event.data.name).pop();
 
@@ -60,7 +65,7 @@ export function useJarvisKitStream() {
             // If there is no last custom event then this is the first custom event with this name
             convertedMessages.push({ type: 'custom', event: event.data.name, content: customEventRenderer(event) });
           }
-        } else {
+        } else if (event.data.value.strategy === 'append') {
           convertedMessages.push({ type: 'custom', event: event.data.name, content: customEventRenderer(event) });
         }
       }

@@ -48,7 +48,7 @@ export class ThreadService {
     const apiEndpoint = this.getUrl(`/threads/${payload.threadId}/messages`);
     const response = await fetch(apiEndpoint, {
       method: 'POST',
-      headers: { ...this.headers, 'Content-Type': 'application/json' },
+      headers: { ...this.headers, 'Content-Type': 'application/json', 'x-agent-namespace': payload.namespace, 'x-agent-name': payload.agentName },
       body: JSON.stringify({
         namespace: payload.namespace,
         agentName: payload.agentName,
